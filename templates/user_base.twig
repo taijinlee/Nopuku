@@ -1,0 +1,48 @@
+{% extends "base.twig" %}
+
+{% block title %}
+  Wine
+{% endblock %}
+
+{% block body_class %}
+  user
+{% endblock %}
+
+{% block css %}
+  {{ parent() }}
+  <link rel="stylesheet" href="http://static.{{ constants.domain }}/css/user/base.css">
+{% endblock %}
+
+{% block js %}
+  {{ parent() }}
+  <script src="http://static.{{ constants.domain }}/js/user/base.js"></script>
+{% endblock  %}
+
+{% block content %}
+  <div class="container">
+  
+    <div class="header sixteen columns alpha omega">
+      {% block header %}
+        <div class="six columns alpha">
+          <h1><a href="" title="">Hello world!</a></h1>
+        </div>
+        <div class="ten columns omega">
+          <ul id="nav">
+            <li><a href="">Cool stuff</li>
+          </ul>
+        </div>
+      {% endblock %}
+    </div>
+    
+    <div class="content sixteen columns alpha omega">
+      {% block main_content %}{% endblock %}
+    </div>
+    
+    <div class="footer sixteen columns alpha omega">
+      {% block footer %}
+        &copy; {{ "now"|date("Y") }}
+      {% endblock %}
+    </div>
+    
+  </div>
+{% endblock %}
