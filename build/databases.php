@@ -4,14 +4,11 @@ namespace build;
 class databases extends build {
 
   public static function get_databases($is_prod) {
+    $databases = array();
     if ($is_prod) {
-      /* $databases['wine']       = array('host' => 'localhost', 'user' => 'nopuku', 'password' => 'nopuku'); */
-      /* $databases['logs']       = array('host' => 'localhost', 'user' => 'nopuku', 'password' => 'nopuku'); */
-      /* $databases['sessions']   = array('host' => 'localhost', 'user' => 'nopuku', 'password' => 'nopuku'); */
+      /* $databases['database']       = array('host' => 'localhost', 'user' => 'nopuku', 'password' => 'nopuku'); */
     } else {
-      $databases['wine']         = array('host' => 'localhost', 'user' => 'root', 'password' => '');
-      /* $databases['logs']       = array('host' => 'localhost', 'user' => 'nopuku', 'password' => 'nopuku'); */
-      /* $databases['sessions']   = array('host' => 'localhost', 'user' => 'nopuku', 'password' => 'nopuku'); */
+      /* $databases['database']       = array('host' => 'localhost', 'user' => 'nopuku', 'password' => 'nopuku'); */
     }
     return $databases;
   }
