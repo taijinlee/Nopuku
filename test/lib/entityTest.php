@@ -6,8 +6,8 @@ class entityTest extends PHPUnit_Framework_TestCase {
 
   protected function setUp() {
     // start with a clean slate for each test
-    $wine = new \lib\database('wine');
-    $wine->query('TRUNCATE database_unit_test');
+    $unit_test = new \lib\database('unit_test');
+    $unit_test->query('TRUNCATE database_test');
   }
 
 
@@ -18,10 +18,9 @@ class entityTest extends PHPUnit_Framework_TestCase {
     $entity = entityTestClass::create($row1);
     $entity_data = $entity->get_attributes();
 
-    $db_time = strtotime($entity_data['date_added']);
-    unset($entity_data['date_added']);
-    unset($entity_data['id']);
-    $this->assertEquals(true, time() < $db_time + 5);
+    $this->assertEquals(true, time() < $entity_data['date_added'] + 5);
+
+    unset($entity_data['id'], $entity_data['date_added'], $entity_data['date_updated']);
     $this->assertEquals($entity_data, $row1);
   }
 
@@ -36,10 +35,9 @@ class entityTest extends PHPUnit_Framework_TestCase {
     // testing positive case
     $entity = entityTestClass::retrieve($entity1['id'], $field = 'id', $where = array('int' => -345));
     $entity_data = $entity->get_attributes();
-    $db_time = strtotime($entity_data['date_added']);
-    unset($entity_data['date_added']);
-    unset($entity_data['id']);
-    $this->assertEquals(time() < $db_time + 5, true);
+    $this->assertEquals(true, time() < $entity_data['date_added'] + 5);
+
+    unset($entity_data['id'], $entity_data['date_added'], $entity_data['date_updated']);
     $this->assertEquals($entity_data, $row1);
 
     // testing negative case
@@ -58,15 +56,15 @@ class entityTest extends PHPUnit_Framework_TestCase {
     $entity1 = entityTestClass::create($row1);
     $entity2 = entityTestClass::create($row2);
 
+    sleep(3); // so that we can see that the date_updated got updated properly
     $entity = entityTestClass::retrieve($entity1['id']);
     $entity['varchar'] = $row1['varchar'] = 'some var char';
     $entity['blob'] = $row1['blob'] = 'some other blob';
     $entity->save();
 
-    $entity = entityTestClass::retrieve($entity1['id']);
     $entity_data = $entity->get_attributes();
-    unset($entity_data['date_added']);
-    unset($entity_data['id']);
+    $this->assertEquals($entity_data['date_added'] == $entity_data['date_updated'], false);
+    unset($entity_data['id'], $entity_data['date_added'], $entity_data['date_updated']);
     $this->assertEquals($entity_data, $row1);
   }
 
@@ -98,8 +96,7 @@ class entityTest extends PHPUnit_Framework_TestCase {
     $entities = entityTestClass::get_iterator($where = 'unsigned_int > %d', $params = array(10));
     foreach ($entities as $entity) {
       $entity_data = $entity->get_attributes();
-      unset($entity_data['date_added']);
-      unset($entity_data['id']);
+      unset($entity_data['id'], $entity_data['date_added'], $entity_data['date_updated']);
       $entity_datas[] = $entity_data;
     }
 
@@ -124,7 +121,7 @@ class entityTest extends PHPUnit_Framework_TestCase {
 
 class entityTestClass extends \lib\entity {
 
-  protected static $database = 'wine';
-  protected static $table = 'database_unit_test';
+  protected static $database = 'unit_test';
+  protected static $table = 'database_test';
 
 }

@@ -6,7 +6,7 @@ class viewTest extends PHPUnit_Framework_TestCase {
 
   public function testConstruct() {
     $view = new viewTestClass();
-    $this->assertEquals($view->renderForTest('empty.twig'), '');
+    $this->assertEquals($view->renderForTest('test/empty.twig'), '');
   }
 
   public function testSet() {
@@ -14,11 +14,11 @@ class viewTest extends PHPUnit_Framework_TestCase {
 
     $some_int = 85748;
     $view->setForTest('variable', $some_int);
-    $this->assertEquals(trim($view->renderForTest('variable.twig')), $some_int);
+    $this->assertEquals(trim($view->renderForTest('test/variable.twig')), $some_int);
 
     $some_string = "%*SN#|ZO!~";
     $view->setForTest('variable', $some_string);
-    $this->assertEquals(trim($view->renderForTest('variable.twig')), $some_string);
+    $this->assertEquals(trim($view->renderForTest('test/variable.twig')), $some_string);
   }
 
 
