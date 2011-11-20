@@ -1,8 +1,13 @@
 <?php
 namespace lib;
 
+/**
+ * Attributes class holds a private array for any class extending it.
+ * It also implements array access ($object['variable'])
+ * and magic get / set interfaces ($object->variable)
+ */
 abstract class attributes implements \ArrayAccess {
-  private $attributes = array();
+  private $attributes = array(); // holds the variables of the object
   private $is_changed = false;
 
   protected function __construct($params) {
