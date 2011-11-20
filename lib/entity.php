@@ -101,7 +101,10 @@ abstract class entity extends attributes {
     $class = $this->class;
 
     $attributes = $this->get_attributes();
-    $attributes['date_added'] = 'NOW()';
+
+    // auto populate date_added and date_updated
+    $attributes['date_added'] = $attributes['date_updated'] = 'UNIX_TIMESTAMP()';
+
     $keys = array_keys($this->model['fields']);
 
     // check primary key possibilities
@@ -139,7 +142,7 @@ abstract class entity extends attributes {
     $placeholders = '(' . implode(', ', $placeholders) . ')';
 
     $database = new database($class::$database);
-    $database->query("INSERT INTO `{$class::$table}` $column_list VALUES $placeholders", $values);
+    $database->query("INSERT INTO `{$class::$table}` $column_list VALUES $placeholders ON DUPLICATE KEY UPDATE date_updated = UNIX_TIMESTAMP()", $values);
 
     if ($this->model['primary_key']['auto_increment']) {
       $primary_key = mysql_insert_id($database->conn());
@@ -159,6 +162,7 @@ abstract class entity extends attributes {
     // do not update the primary key
     $primary_key = $attributes[$this->model['primary_key']['field']];
     unset($attributes['date_added'], $attributes[$this->model['primary_key']['field']]);
+    $attributes['date_updated'] = 'UNIX_TIMESTAMP()';
 
     $keys = array_keys($attributes);
     $set_columns = array();
@@ -171,7 +175,7 @@ abstract class entity extends attributes {
 
     $database = new database($class::$database);
     $database->query("UPDATE `{$class::$table}` $set_columns WHERE `" . $this->model['primary_key']['field'] . '` = ' . $this->model['fields'][$this->model['primary_key']['field']], $attributes);
-    return $this->__fetch($primary_key);
+    $this->__fetch($primary_key);
   }
 
   /**
