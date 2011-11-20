@@ -41,7 +41,7 @@ class database {
 
     if (self::$log > 0) {
       self::$log--;
-      print_r($sql);
+      log::debug($sql);
     }
 
     $result = mysql_query($sql, $this->conn);
