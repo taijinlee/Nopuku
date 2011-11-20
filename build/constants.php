@@ -9,24 +9,25 @@ class constants extends build {
 
     // base hostname
     if ($is_prod) {
-      $params['domain'] = 'wine.nopuku.com';
+      $params['domain'] = 'www.nopuku.com';
     } else {
       $user = trim(`whoami`);
-      $params['domain'] = "{$user}.wine.nopuku.com";
+      $params['domain'] = "{$user}.nopuku.com";
     }
 
     // twig configs
     if ($is_prod) {
-      $params['twig_cache_on'] = true;
-      $params['twig_debug_on'] = false;
+      // not using production for now
+      $params['twig_cache_on'] = false;
+      $params['twig_debug_on'] = true;
     } else {
       $params['twig_cache_on'] = false;
       $params['twig_debug_on'] = true;
     }
 
     // facebook application settings
-    $params['fb_app_id'] = '134231423320970';
-    $params['fb_app_secret'] = '417bd59c1f93235c1270deacb4791814';
+    $params['fb_app_id'] = '12345';
+    $params['fb_app_secret'] = '12345';
 
 
     foreach ($params as $key => $value) {

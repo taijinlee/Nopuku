@@ -23,8 +23,6 @@ class build {
   private static $build_dir;
 
   public static function build_conf($is_prod, $file_name) {
-    $_SERVER['NP_ROOT'] . '/lib/conf/';
-
     self::get_file_handler(self::$build_dir . $file_name . '.php');
     self::open($file_name);
     $class = get_called_class();
@@ -61,7 +59,7 @@ class build {
 
     self::$fh = fopen($file_full_path, 'w');
     if (!self::$fh) {
-      Log::error('Cannot open configuration file: ' . $file_full_path);
+      \lib\log::error('Cannot open configuration file: ' . $file_full_path);
     }
   }
 

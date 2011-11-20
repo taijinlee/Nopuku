@@ -51,12 +51,12 @@ class models extends build {
   }
 
   private static function get_row_info($row) {
-    if (strpos($row['Type'], 'int')) {
+    if ($row['Field'] == 'date_added' || $row['Field'] == 'date_updated') { // this gets hardcoded by UNIX_TIMESTAMP() in ORM
+      $placeholder = '%S';
+    } elseif (strpos($row['Type'], 'int')) {
       $placeholder = '%d';
     } elseif (strpos($row['Type'], 'float') || strpos($row['Type'], 'decimal') || strpos($row['Type'], 'double')) {
       $placeholder = '%f';
-    } else if ($row['Field'] == 'date_added') { // this gets hardcoded by NOW() in ORM
-      $placeholder = '%S';
     } else {
       $placeholder = '%s';
     }
