@@ -1,7 +1,7 @@
 {% extends "base.twig" %}
 
 {% block title %}
-  Wine
+  Nopuku Framework
 {% endblock %}
 
 {% block body_class %}
@@ -10,12 +10,12 @@
 
 {% block css %}
   {{ parent() }}
-  <link rel="stylesheet" href="http://static.{{ constants.domain }}/css/user/base.css">
+  <link rel="stylesheet" href="http://media.{{ constants.domain }}/css/user/base.css">
 {% endblock %}
 
 {% block js %}
   {{ parent() }}
-  <script src="http://static.{{ constants.domain }}/js/user/base.js"></script>
+  <script src="http://media.{{ constants.domain }}/js/user/base.js"></script>
 {% endblock  %}
 
 {% block content %}
