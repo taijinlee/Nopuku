@@ -161,20 +161,24 @@ abstract class entity extends attributes {
     $attributes = $this->get_attributes();
     // do not update the primary key
     $primary_key = $attributes[$this->model['primary_key']['field']];
-    unset($attributes['date_added'], $attributes[$this->model['primary_key']['field']]);
     $attributes['date_updated'] = 'UNIX_TIMESTAMP()';
 
-    $keys = array_keys($attributes);
-    $set_columns = array();
+    $keys = array_keys($this->model['fields']);
+    $set_columns = $values = array();
     foreach ($keys as $key) {
+      // skip primary key
+      if ($this->model['primary_key']['field'] == $key) {
+        continue;
+      }
       $set_columns[] = "`$key` = " . $this->model['fields'][$key];
+      $values[] = $attributes[$key];
     }
     $set_columns = 'SET ' . implode(', ', $set_columns);
 
-    $attributes[] = $primary_key;
+    $values[] = $primary_key;
 
     $database = new database($class::$database);
-    $database->query("UPDATE `{$class::$table}` $set_columns WHERE `" . $this->model['primary_key']['field'] . '` = ' . $this->model['fields'][$this->model['primary_key']['field']], $attributes);
+    $database->query("UPDATE `{$class::$table}` $set_columns WHERE `" . $this->model['primary_key']['field'] . '` = ' . $this->model['fields'][$this->model['primary_key']['field']], $values);
     $this->__fetch($primary_key);
   }
 
